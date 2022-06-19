@@ -1,10 +1,10 @@
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import axios from "axios";
 import cardsMarkup from "./js/template";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-import getRefs  from "./js/refs.js";
+import getRefs from "./js/refs.js";
+import { fetchImages } from "./js/api-service";
 
 const refs = getRefs();
 
@@ -27,7 +27,7 @@ async function onSearch(e) {
             return
         }
         const imageCollection = await fetchImages(formInput, page);
-
+       
         refs.gallery.innerHTML = "";
         imageMarkup(imageCollection.hits);
         if (!imageCollection.total) {
@@ -64,11 +64,11 @@ async function onLoadMore() {
     }
 }
 
-async function fetchImages(search, page) {
-    const res = await axios(`https://pixabay.com/api/?key=28071781-459ddb4c5fc455b50beadddbb&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${imageOnPage}&page=${page}`)
+// async function fetchImages(search, page) {
+//     const res = await axios(`https://pixabay.com/api/?key=28071781-459ddb4c5fc455b50beadddbb&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${imageOnPage}&page=${page}`)
 
-    return res.data;
-}
+//     return res.data;
+// }
 
 function imageMarkup(arr) {
     refs.gallery.insertAdjacentHTML('beforeend', cardsMarkup(arr));
